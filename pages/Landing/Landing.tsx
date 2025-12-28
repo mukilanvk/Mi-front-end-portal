@@ -104,7 +104,6 @@ const Landing: React.FC<LandingProps> = ({ onLogin, onRegister }) => {
             <div className="relative h-[360px] md:h-[600px] w-full flex items-center justify-center scale-[0.7] sm:scale-[0.85] md:scale-100">
               <div className="absolute inset-0 bg-gradient-radial from-blue-100/50 to-transparent blur-3xl opacity-50"></div>
               
-              {/* Card Layer 1 (Back) */}
               <div className="absolute w-[300px] md:w-[400px] bg-white p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] border border-slate-100 shadow-2xl transform rotate-12 -translate-y-16 translate-x-16 md:-translate-y-24 md:translate-x-24 opacity-40 animate-float-delayed">
                 <div className="h-4 w-24 bg-slate-100 rounded-full mb-6"></div>
                 <div className="space-y-3">
@@ -113,7 +112,6 @@ const Landing: React.FC<LandingProps> = ({ onLogin, onRegister }) => {
                 </div>
               </div>
 
-              {/* Card Layer 2 (Middle) */}
               <div className="absolute w-[300px] md:w-[400px] glass-card p-6 md:p-8 rounded-[1.5rem] md:rounded-[2rem] shadow-2xl transform -rotate-6 -translate-x-8 -translate-y-8 md:-translate-x-12 md:-translate-y-12 z-0 animate-float" style={{ animationDelay: '1s' }}>
                 <div className="flex items-center gap-4 mb-6 md:mb-8">
                   <div className="size-12 md:size-14 rounded-xl md:rounded-2xl bg-accent-purple/10 flex items-center justify-center text-accent-purple">
@@ -129,7 +127,6 @@ const Landing: React.FC<LandingProps> = ({ onLogin, onRegister }) => {
                 </div>
               </div>
 
-              {/* Card Layer 3 (Front Focus) */}
               <div className="absolute w-[320px] md:w-[420px] bg-slate-900 p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] shadow-[0_40px_100px_-15px_rgba(15,23,42,0.4)] z-10 border border-slate-800 animate-float" style={{ animationDelay: '0.5s' }}>
                 <div className="flex justify-between items-start mb-8 md:mb-10">
                   <div className="flex items-center gap-4 md:gap-5">
@@ -161,18 +158,6 @@ const Landing: React.FC<LandingProps> = ({ onLogin, onRegister }) => {
         </div>
       </section>
 
-      {/* Social Proof */}
-      <section className="py-10 border-y border-slate-100 bg-white/40 backdrop-blur-sm relative z-10 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-8 md:mb-12">Powering modern teams</p>
-          <div className="flex flex-wrap justify-center gap-8 md:gap-24 opacity-30 grayscale hover:grayscale-0 transition-all duration-700 cursor-default">
-            {['GOOGLE', 'IBM', 'MICROSOFT', 'SPOTIFY'].map(brand => (
-              <span key={brand} className="text-lg md:text-2xl font-black text-slate-900 tracking-tighter">{brand}</span>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Features Grid */}
       <section className="py-16 md:py-32 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -191,7 +176,7 @@ const Landing: React.FC<LandingProps> = ({ onLogin, onRegister }) => {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Footer - Redesigned for Mobile Balance */}
       <footer className="bg-white border-t border-slate-100 pt-12 pb-8 md:pt-24 md:pb-12 relative z-10 mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-x-8 gap-y-12 mb-12 md:mb-20">
@@ -205,11 +190,11 @@ const Landing: React.FC<LandingProps> = ({ onLogin, onRegister }) => {
               <p className="text-slate-400 font-medium text-sm md:text-lg max-w-xs leading-relaxed">The productivity platform designed to help you achieve more with less stress.</p>
             </div>
             
-            {/* Footer Categories - Optimized for mobile grid */}
+            {/* Optimized Grid Layout for mobile: 2 items per row instead of 1 long column */}
             {['Product', 'Company', 'Legal'].map((cat, idx) => (
               <div key={cat} className={`${idx === 2 ? 'col-span-2 sm:col-span-1' : 'col-span-1'}`}>
-                <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-[0.2em] mb-4 md:mb-8">{cat}</h4>
-                <ul className="space-y-2.5 md:space-y-4">
+                <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-[0.2em] mb-4 md:mb-8">{cat}</h4>
+                <ul className="space-y-3 md:space-y-4">
                   {['Features', 'Pricing', 'About Us', 'Privacy'].map(link => (
                     <li key={link}><a className="text-slate-400 hover:text-primary transition-colors font-bold text-xs md:text-sm tracking-tight" href="#">{link}</a></li>
                   ))}
@@ -219,7 +204,7 @@ const Landing: React.FC<LandingProps> = ({ onLogin, onRegister }) => {
           </div>
           
           <div className="pt-6 md:pt-12 border-t border-slate-50 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-slate-400 text-[9px] md:text-xs font-black uppercase tracking-widest text-center md:text-left">© 2024 Just Do It Inc.</p>
+            <p className="text-slate-400 text-[9px] md:text-xs font-black uppercase tracking-widest text-center md:text-left">© 2024 Just Do It Inc. All rights reserved.</p>
             <div className="flex gap-6 md:gap-8 text-slate-300">
                {[Globe, ThumbsUp, Share2].map((Icon, idx) => (
                  <a key={idx} href="#" className="hover:text-primary transition-all hover:scale-110">

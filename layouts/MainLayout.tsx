@@ -37,7 +37,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
 
   return (
     <div className="flex h-screen w-full relative overflow-hidden font-sans bg-mesh">
-      {/* Sidebar for Desktop & Mobile Overlay */}
+      {/* Sidebar - Handles both Desktop Collapsible and Mobile Drawer */}
       <Sidebar 
         onCreateNew={onCreateNew} 
         activeItem={activeItem} 
@@ -52,13 +52,13 @@ const MainLayout: React.FC<MainLayoutProps> = ({
         onCloseMobile={() => setIsMobileSidebarOpen(false)}
       />
 
-      {/* Main Content */}
+      {/* Main Content Area */}
       <main className={`flex-1 flex flex-col relative overflow-hidden transition-all duration-300`}>
         <Header 
           onToggleNotifications={() => onToggleNotifications(true)} 
           onToggleSidebar={() => setIsMobileSidebarOpen(true)}
           breadcrumbs={breadcrumbs}
-          userName={isAdmin ? "System Controller" : "Alex Designer"}
+          userName={isAdmin ? "Administrator" : "Jane Doe"}
           onLogout={onLogout}
         />
         <div className="flex-1 overflow-y-auto overflow-x-hidden relative scrollbar-hide bg-slate-50/30">

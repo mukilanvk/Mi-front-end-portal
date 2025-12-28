@@ -27,8 +27,7 @@ import {
   Send,
   History,
   Image as ImageIcon,
-  Clock,
-  ChevronRight
+  Clock
 } from 'lucide-react';
 
 interface BoardDetailProps {
@@ -124,7 +123,6 @@ const BoardDetail: React.FC<BoardDetailProps> = ({ board, onUpdateTasks, onUpdat
 
   return (
     <div className="flex h-full w-full bg-[#F8FBFF] overflow-hidden font-sans relative">
-      {/* Refined Sidebar */}
       <aside className="w-64 shrink-0 bg-white border-r border-slate-100 flex flex-col p-6 overflow-y-auto scrollbar-hide z-20 shadow-sm">
         <div className="mb-10">
           <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-6 px-1">Views</p>
@@ -137,7 +135,6 @@ const BoardDetail: React.FC<BoardDetailProps> = ({ board, onUpdateTasks, onUpdat
         <div className="mb-10">
           <div className="flex items-center justify-between mb-4 px-1">
             <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-800">Pipelines</h4>
-            <button onClick={() => setSelectedStatuses(board.columns.map(c => c.title))} className="text-[10px] font-black text-primary hover:underline">Reset</button>
           </div>
           <div className="space-y-3">
             {board.columns.map(col => (
@@ -158,9 +155,7 @@ const BoardDetail: React.FC<BoardDetailProps> = ({ board, onUpdateTasks, onUpdat
         </div>
 
         <div className="mb-10">
-          <div className="flex items-center justify-between mb-4 px-1">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-800">Team</h4>
-          </div>
+          <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-800 mb-4 px-1">Team</h4>
           <div className="space-y-2">
             {board.members.map(member => (
               <label key={member.id} className="flex items-center gap-3 cursor-pointer group hover:bg-slate-50 p-1 rounded-lg transition-all">
@@ -170,7 +165,7 @@ const BoardDetail: React.FC<BoardDetailProps> = ({ board, onUpdateTasks, onUpdat
                       setSelectedAssigneeIds(prev => prev.includes(member.id) ? prev.filter(id => id !== member.id) : [...prev, member.id]);
                     }} />
                 </div>
-                <img src={member.avatar} className="size-7 rounded-lg border border-slate-100 shadow-sm object-cover" alt={member.name} />
+                <img src={member.avatar} className="size-7 rounded-lg object-cover" alt={member.name} />
                 <span className="text-[12px] font-semibold text-slate-600 group-hover:text-slate-900 transition-colors truncate">{member.name}</span>
               </label>
             ))}
@@ -178,9 +173,7 @@ const BoardDetail: React.FC<BoardDetailProps> = ({ board, onUpdateTasks, onUpdat
         </div>
       </aside>
 
-      {/* Main Content Area */}
       <div className="flex-1 flex flex-col overflow-hidden relative">
-        {/* Simplified Header */}
         <div className="shrink-0 bg-white border-b border-slate-100 p-6 flex items-center justify-between z-10">
           <div className="flex items-center gap-6">
             <div className={`size-14 rounded-2xl bg-gradient-to-br ${board.gradient} shadow-lg flex items-center justify-center text-white`}>
@@ -195,8 +188,7 @@ const BoardDetail: React.FC<BoardDetailProps> = ({ board, onUpdateTasks, onUpdat
           <div className="flex items-center gap-4">
             <div className="hidden sm:flex items-center gap-8 px-6 py-3 bg-slate-50 rounded-xl border border-slate-100">
               <StatItem label="Tasks" value={board.tasks.length} />
-              <StatItem label="Done" value={`${progressPercent}%`} color="text-emerald-500" />
-              <StatItem label="Team" value={board.members.length} />
+              <StatItem label="Progress" value={`${progressPercent}%`} color="text-emerald-500" />
             </div>
             <button onClick={() => setShowSettings(true)} className="p-2.5 bg-white border border-slate-200 text-slate-500 rounded-xl hover:bg-slate-50 transition-all">
               <Settings size={20} />
@@ -204,7 +196,6 @@ const BoardDetail: React.FC<BoardDetailProps> = ({ board, onUpdateTasks, onUpdat
           </div>
         </div>
 
-        {/* Board/List View Container */}
         <div className="flex-1 overflow-auto p-6 scrollbar-hide relative z-10">
           {activeTab === 'Board' ? (
             <div className="flex gap-6 items-start h-full">
@@ -216,51 +207,43 @@ const BoardDetail: React.FC<BoardDetailProps> = ({ board, onUpdateTasks, onUpdat
                       <h3 className="font-bold text-slate-800 text-sm uppercase tracking-wider">{col.title}</h3>
                       <span className="text-slate-400 text-[10px] font-black">{board.tasks.filter(t => t.status === col.title).length}</span>
                     </div>
-                    <button className="text-slate-300 hover:text-slate-600 transition-colors">
-                      <MoreHorizontal size={18} />
-                    </button>
                   </div>
                   <div className="flex-1 overflow-y-auto space-y-4 pr-1 scrollbar-hide pb-20">
                     {filteredTasks.filter(t => t.status === col.title).map(task => (
                       <TaskCard key={task.id} task={task} onClick={() => setSelectedTask(task)} onDragStart={(e) => handleDragStart(e, task.id)} />
                     ))}
-                    <button onClick={() => setShowCreateTask(true)} className="w-full py-4 rounded-xl border-2 border-dashed border-slate-200 text-slate-400 font-bold text-xs flex items-center justify-center gap-2 hover:bg-white hover:border-primary/40 hover:text-primary transition-all">
+                    <button onClick={() => setShowCreateTask(true)} className="w-full py-4 rounded-xl border-2 border-dashed border-slate-200 text-slate-400 font-bold text-xs flex items-center justify-center gap-2 hover:bg-white hover:text-primary transition-all">
                       <Plus size={16} /> New Task
                     </button>
                   </div>
                 </div>
               ))}
-              <button onClick={() => setShowAddColumnPopup(true)} className="w-80 shrink-0 h-12 rounded-xl border-2 border-dashed border-slate-200 text-slate-400 font-bold text-xs flex items-center justify-center gap-2 hover:bg-white/80 hover:text-primary transition-all">
+              <button onClick={() => setShowAddColumnPopup(true)} className="w-80 shrink-0 h-12 rounded-xl border-2 border-dashed border-slate-200 text-slate-400 font-bold text-xs flex items-center justify-center gap-2 hover:bg-white hover:text-primary transition-all">
                 <Columns size={18} /> New Pipeline
               </button>
             </div>
           ) : (
-            <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-2 animate-fade-in w-full max-w-5xl mx-auto">
-               <table className="w-full text-left">
+             <div className="bg-white rounded-2xl border border-slate-100 p-2 animate-fade-in w-full max-w-5xl mx-auto shadow-sm">
+                <table className="w-full text-left">
                   <thead>
                      <tr className="border-b border-slate-100">
                         <th className="py-4 px-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Tasks</th>
-                        <th className="py-4 px-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
                         <th className="py-4 px-6 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Deadline</th>
                      </tr>
                   </thead>
                   <tbody>
                      {filteredTasks.map(task => (
-                        <tr key={task.id} onClick={() => setSelectedTask(task)} className="hover:bg-slate-50 transition-colors cursor-pointer group border-b border-slate-50 last:border-0">
+                        <tr key={task.id} onClick={() => setSelectedTask(task)} className="hover:bg-slate-50 transition-colors cursor-pointer border-b border-slate-50 last:border-0">
                            <td className="py-4 px-6 font-bold text-slate-800 text-sm">{task.title}</td>
-                           <td className="py-4 px-6">
-                              <span className="text-[10px] font-black uppercase px-2 py-1 rounded bg-slate-100 text-slate-500">{task.status}</span>
-                           </td>
                            <td className="py-4 px-6 text-right text-xs font-semibold text-slate-400">{task.dueDate}</td>
                         </tr>
                      ))}
                   </tbody>
-               </table>
-            </div>
+                </table>
+             </div>
           )}
         </div>
 
-        {/* Fixed Action Buttons */}
         <div className="fixed bottom-8 right-8 flex flex-col gap-3 z-40">
            <button onClick={() => setShowCommunityChat(!showCommunityChat)} className={`size-12 rounded-xl ${showCommunityChat ? 'bg-indigo-600' : 'bg-slate-900'} text-white shadow-xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all border-4 border-white`}>
             {showCommunityChat ? <X size={20} /> : <MessageCircle size={20} />}
@@ -280,13 +263,13 @@ const BoardDetail: React.FC<BoardDetailProps> = ({ board, onUpdateTasks, onUpdat
             <p className="text-slate-500 font-medium mb-8 text-sm">This action cannot be undone.</p>
             <div className="flex gap-4">
                <button onClick={() => setTaskToDeleteId(null)} className="flex-1 py-3 text-sm font-bold text-slate-400 hover:text-slate-600">Cancel</button>
-               <button onClick={executeDeleteTask} className="flex-1 py-3 bg-rose-500 text-white rounded-xl text-sm font-bold shadow-lg shadow-rose-500/20">Delete</button>
+               <button onClick={executeDeleteTask} className="flex-1 py-3 bg-rose-500 text-white rounded-xl text-sm font-bold">Delete</button>
             </div>
           </div>
         </div>
       )}
 
-      {showSettings && <BoardSettings board={board} onUpdateBoard={(u) => { onUpdateBoard(u); onAddSnack('Settings updated', 'success'); }} onClose={() => setShowSettings(false)} />}
+      {showSettings && <BoardSettings board={board} onUpdateBoard={onUpdateBoard} onClose={() => setShowSettings(false)} />}
       
       {showAddColumnPopup && (
         <div className="fixed inset-0 z-[500] flex items-center justify-center p-6 bg-slate-900/40 backdrop-blur-sm animate-fade-in">
@@ -313,11 +296,9 @@ const BoardDetail: React.FC<BoardDetailProps> = ({ board, onUpdateTasks, onUpdat
               onUpdateTasks(board.tasks.map(task => task.id === selectedTask.id ? { ...task, ...t } : task));
               setShowEditTask(false);
               setSelectedTask(null);
-              onAddSnack(`Task saved`, 'info');
             } else {
-              onUpdateTasks([...board.tasks, { ...t as Task, id: `TSK-${Math.floor(Math.random() * 9000 + 1000)}`, subtasks: [], attachments: [], versions: [] }]);
+              onUpdateTasks([...board.tasks, { ...t as Task, id: `TSK-${Date.now()}`, subtasks: [], attachments: [], versions: [] }]);
               setShowCreateTask(false);
-              onAddSnack(`Task created`, 'success');
             }
           }} 
           onClose={() => { setShowCreateTask(false); setShowEditTask(false); }} 
@@ -330,7 +311,7 @@ const BoardDetail: React.FC<BoardDetailProps> = ({ board, onUpdateTasks, onUpdat
           members={board.members}
           boardName={board.title}
           onClose={() => setSelectedTask(null)} 
-          onUpdateTask={(updatedTask) => { onUpdateTasks(board.tasks.map(t => t.id === updatedTask.id ? updatedTask : t)); setSelectedTask(null); onAddSnack(`Saved`, 'info'); }}
+          onUpdateTask={(updatedTask) => { onUpdateTasks(board.tasks.map(t => t.id === updatedTask.id ? updatedTask : t)); setSelectedTask(null); }}
           onDeleteTask={(id) => { setTaskToDeleteId(id); }}
           onEdit={() => setShowEditTask(true)}
         />
@@ -340,18 +321,10 @@ const BoardDetail: React.FC<BoardDetailProps> = ({ board, onUpdateTasks, onUpdat
 };
 
 const TaskCard: React.FC<{ task: Task, onClick: () => void, onDragStart: (e: React.DragEvent) => void }> = ({ task, onClick, onDragStart }) => {
-  const getPriorityStyle = (p: string) => {
-    switch (p) {
-      case 'Urgent': return 'text-rose-500';
-      case 'High': return 'text-orange-500';
-      default: return 'text-sky-500';
-    }
-  };
-
   return (
     <div draggable onDragStart={onDragStart} onClick={onClick} className="bg-white rounded-xl p-4 shadow-sm border border-slate-100 hover:shadow-md hover:border-primary/20 transition-all cursor-pointer group active:scale-[0.98]">
       <div className="flex justify-between items-start mb-3">
-        <span className={`text-[9px] font-black uppercase tracking-wider ${getPriorityStyle(task.priority)} bg-slate-50 px-2 py-0.5 rounded`}>
+        <span className={`text-[9px] font-black uppercase tracking-wider bg-slate-50 px-2 py-0.5 rounded text-slate-500`}>
           {task.priority}
         </span>
         <button className="text-slate-200 group-hover:text-slate-400 transition-colors">
@@ -366,7 +339,6 @@ const TaskCard: React.FC<{ task: Task, onClick: () => void, onDragStart: (e: Rea
         </div>
         <div className="flex -space-x-2">
            {task.assignees.slice(0, 2).map((a, i) => <img key={i} src={a} className="size-6 rounded-lg border-2 border-white shadow-sm object-cover" alt="member" />)}
-           {task.assignees.length > 2 && <div className="size-6 rounded-lg bg-slate-50 border-2 border-white flex items-center justify-center text-[8px] font-black text-slate-400">+{task.assignees.length - 2}</div>}
         </div>
       </div>
     </div>

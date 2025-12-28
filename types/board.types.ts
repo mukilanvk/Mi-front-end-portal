@@ -103,7 +103,7 @@ export interface Board {
 
 export interface NavItem {
   label: string;
-  icon: any; // Changed to any to support Lucide icons directly
+  icon: any;
   active?: boolean;
   colorClass?: string;
 }

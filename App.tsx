@@ -17,7 +17,7 @@ import Landing from './pages/Landing/Landing';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
 import { BOARDS } from './utils/constants';
-import { Board, Task } from './types/board.types';
+import { Board } from './types/board.types';
 import { Snack } from './components/Snackbar/Snackbar';
 
 type View = 
@@ -47,14 +47,14 @@ const App: React.FC = () => {
     setIsLoggedIn(true);
     setIsAdmin(adminLogin);
     setView(adminLogin ? 'admin-dashboard' : 'home');
-    addSnack(adminLogin ? "Admin session initiated." : "Welcome back!", "success");
+    addSnack(adminLogin ? "Admin session started" : "Welcome back!", "success");
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     setIsAdmin(false);
     setView('landing');
-    addSnack("You have been logged out.", "info");
+    addSnack("Logged out successfully.", "info");
   };
 
   const handleNavigate = (label: string) => {
@@ -69,42 +69,22 @@ const App: React.FC = () => {
       'Permissions': 'permission-master',
       'Member Master': 'member-master',
       'Client Master': 'client-master',
-      'Board Master': 'boards-list',
-      'Admin Settings': 'settings'
     };
     if (routeMap[label]) setView(routeMap[label]);
     setSelectedBoardId(null);
   };
 
-  const handleCreateBoard = (newBoard: Partial<Board>) => {
-    const fullBoard: Board = {
-      ...newBoard as Board,
-      id: (boards.length + 1).toString(),
-      tasks: [],
-      comments: [],
-      members: [],
-      columns: [
-        { id: 'c1', title: 'To Do', color: 'bg-sky-500' },
-        { id: 'c2', title: 'In Progress', color: 'bg-amber-400' },
-        { id: 'c3', title: 'Completed', color: 'bg-emerald-400' }
-      ]
-    };
-    setBoards([...boards, fullBoard]);
-    setView('boards-list');
-    addSnack(`Board "${fullBoard.title}" created successfully!`);
-  };
+  const currentBoard = boards.find(b => b.id === selectedBoardId);
 
   if (view === 'landing') return <Landing onLogin={() => setView('login')} onRegister={() => setView('register')} />;
   if (view === 'login') return <Login onLogin={() => handleLogin(false)} onAdminLogin={() => handleLogin(true)} onRegister={() => setView('register')} onBack={() => setView('landing')} />;
-  if (view === 'register') return <Register onLogin={() => setView('login')} onRegister={() => { setIsLoggedIn(true); setView('home'); }} onBack={() => setView('landing')} />;
-
-  const currentBoard = boards.find(b => b.id === selectedBoardId);
+  if (view === 'register') return <Register onLogin={() => setView('login')} onRegister={() => handleLogin(false)} onBack={() => setView('landing')} />;
 
   return (
     <MainLayout
       isAdmin={isAdmin}
       activeItem={view.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
-      breadcrumbs={[{ label: isAdmin ? 'Admin Portal' : 'Workspace' }, { label: view.replace('-', ' ').toUpperCase() }]}
+      breadcrumbs={[{ label: isAdmin ? 'Admin' : 'Workspace' }, { label: view.replace('-', ' ').toUpperCase() }]}
       showNotifications={showNotifications}
       onToggleNotifications={setShowNotifications}
       onNavigate={handleNavigate}
@@ -120,12 +100,11 @@ const App: React.FC = () => {
       {view === 'member-master' && <MemberMaster />}
       {view === 'client-master' && <ClientMaster />}
       
-      {view === 'create-board' && <div className="flex justify-center p-4 md:p-8"><BoardCreation onBack={() => setView('boards-list')} onContinue={handleCreateBoard} /></div>}
-      
       {view === 'home' && <Dashboard />}
       {view === 'boards-list' && <BoardsList boards={boards} onSelectBoard={(b) => { setSelectedBoardId(b.id); setView('board-detail'); }} onCreateNew={() => setView('create-board')} />}
-      {view === 'board-detail' && currentBoard && <BoardDetail board={currentBoard} onBack={() => setView('boards-list')} onUpdateTasks={() => {}} onUpdateBoard={() => {}} onAddSnack={addSnack} />}
-      {view === 'settings' && <SettingsPage onSave={() => addSnack("Saved!")} />}
+      {view === 'board-detail' && currentBoard && <BoardDetail board={currentBoard} onBack={() => setView('boards-list')} onUpdateTasks={(t) => setBoards(prev => prev.map(b => b.id === currentBoard.id ? { ...b, tasks: t } : b))} onUpdateBoard={(u) => setBoards(prev => prev.map(b => b.id === currentBoard.id ? { ...b, ...u } : b))} onAddSnack={addSnack} />}
+      {view === 'create-board' && <div className="flex justify-center p-8"><BoardCreation onBack={() => setView('boards-list')} onContinue={(b) => { setBoards([...boards, { ...b as Board, id: Date.now().toString(), tasks: [], members: [] }]); setView('boards-list'); addSnack('Board Created!'); }} /></div>}
+      {view === 'settings' && <SettingsPage onSave={() => addSnack("Settings saved!")} />}
       {view === 'analytics' && <AnalyticsPage />}
     </MainLayout>
   );

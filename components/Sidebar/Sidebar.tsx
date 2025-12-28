@@ -59,9 +59,9 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   const sidebarClasses = `
     fixed inset-y-0 left-0 z-[100] transform transition-all duration-300 ease-in-out md:relative md:translate-x-0
-    ${isMobileOpen ? 'translate-x-0 w-64' : '-translate-x-full'}
+    ${isMobileOpen ? 'translate-x-0 w-64 shadow-2xl' : '-translate-x-full'}
     ${isCollapsed ? 'md:w-20' : 'md:w-64'}
-    bg-white border-r border-slate-100 shadow-sm flex flex-col
+    bg-white border-r border-slate-100 flex flex-col
   `;
 
   return (
@@ -76,20 +76,18 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       <aside className={sidebarClasses}>
         <div className="flex flex-col h-full p-4 md:p-6 overflow-y-auto scrollbar-hide relative">
-          {/* Collapse Toggle Button (Desktop only) */}
-          {onToggleCollapse && (
-            <button 
-              onClick={onToggleCollapse}
-              className="absolute -right-3 top-20 z-20 bg-white border border-slate-100 rounded-full p-1 text-slate-400 hover:text-primary shadow-sm hidden md:block"
-            >
-              {isCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
-            </button>
-          )}
+          {/* Desktop Collapse Toggle */}
+          <button 
+            onClick={onToggleCollapse}
+            className="absolute -right-3 top-20 z-20 bg-white border border-slate-100 rounded-full p-1 text-slate-400 hover:text-primary shadow-sm hidden md:block"
+          >
+            {isCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+          </button>
 
           {/* Mobile Close Button */}
           <button 
             onClick={onCloseMobile}
-            className="md:hidden absolute top-4 right-4 text-slate-400 p-2"
+            className="md:hidden absolute top-4 right-4 text-slate-400 p-2 hover:bg-slate-50 rounded-lg"
           >
             <X size={20} />
           </button>
