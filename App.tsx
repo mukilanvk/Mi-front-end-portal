@@ -47,7 +47,14 @@ const App: React.FC = () => {
     setIsLoggedIn(true);
     setIsAdmin(adminLogin);
     setView(adminLogin ? 'admin-dashboard' : 'home');
-    addSnack(adminLogin ? "Admin session initialized." : "Welcome back!", "success");
+    addSnack(adminLogin ? "Admin session initiated." : "Welcome back!", "success");
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setIsAdmin(false);
+    setView('landing');
+    addSnack("You have been logged out.", "info");
   };
 
   const handleNavigate = (label: string) => {
@@ -104,6 +111,7 @@ const App: React.FC = () => {
       onCreateNew={() => setView('create-board')}
       snacks={snacks}
       onRemoveSnack={removeSnack}
+      onLogout={handleLogout}
     >
       {view === 'admin-dashboard' && <AdminDashboard />}
       {view === 'role-master' && <RoleMaster />}
@@ -112,7 +120,7 @@ const App: React.FC = () => {
       {view === 'member-master' && <MemberMaster />}
       {view === 'client-master' && <ClientMaster />}
       
-      {view === 'create-board' && <div className="flex justify-center p-8"><BoardCreation onBack={() => setView('boards-list')} onContinue={handleCreateBoard} /></div>}
+      {view === 'create-board' && <div className="flex justify-center p-4 md:p-8"><BoardCreation onBack={() => setView('boards-list')} onContinue={handleCreateBoard} /></div>}
       
       {view === 'home' && <Dashboard />}
       {view === 'boards-list' && <BoardsList boards={boards} onSelectBoard={(b) => { setSelectedBoardId(b.id); setView('board-detail'); }} onCreateNew={() => setView('create-board')} />}

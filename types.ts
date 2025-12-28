@@ -7,13 +7,14 @@ export enum Category {
   Finance = 'Finance'
 }
 
+/* Updated Member interface to include 'Admin' role and 'Banned' status for consistency across the app */
 export interface Member {
   id: string;
   name: string;
   email: string;
   avatar: string;
-  role: 'Owner' | 'Editor' | 'Viewer';
-  status: 'Online' | 'Offline';
+  role: 'Admin' | 'Owner' | 'Editor' | 'Viewer';
+  status: 'Online' | 'Offline' | 'Banned';
   lastActive: string;
 }
 
@@ -99,9 +100,10 @@ export interface Board {
   columns: Column[];
 }
 
+/* Updated NavItem icon type to any to support Lucide icons directly */
 export interface NavItem {
   label: string;
-  icon: string;
+  icon: any;
   active?: boolean;
   colorClass?: string;
 }

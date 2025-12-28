@@ -1,7 +1,8 @@
 
 import React, { useState, useMemo } from 'react';
-import Hero from '../../components/Hero';
-import BoardCard from '../../components/BoardCard';
+/* Updated imports to use modern components that are compatible with board.types.ts */
+import Hero from '../../components/Hero/Hero';
+import BoardCard from '../../components/BoardCard/BoardCard';
 import { Board } from '../../types/board.types';
 import { Grid, List, ChevronDown, Plus, Search, X } from 'lucide-react';
 
